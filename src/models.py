@@ -13,6 +13,7 @@ class Post:
     content_html: str
     content_raw: str
     slug: str
+    template: Optional[str] = None
     category: Optional[str] = None
     tags: List[str] = field(default_factory=list)
     description: Optional[str] = None

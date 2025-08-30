@@ -16,6 +16,7 @@ def parse_markdown_file(filepath: Path) -> Post:
         content_html=html_content,
         content_raw=post_fm.content,
         slug=filepath.stem,
+        template=metadata.get("template"),
         category=metadata.get("category"),
         tags=metadata.get("tags", []),
         description=metadata.get("description"),
