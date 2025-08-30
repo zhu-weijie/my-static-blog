@@ -1,0 +1,11 @@
+# pyproject.toml (Corrected)
+[project]
+name = "my-static-blog"
+version = "0.1.0"
+# Add your dependency here
+dependencies = [
+    "markdown"
+]
+
+[project.scripts]
+build = "src.build:main"
