@@ -10,6 +10,7 @@ class SiteBuilder:
         self.content_dir = Path("content")
         self.output_dir = Path("output")
         self.renderer = Renderer(Path("templates"))
+        self.site_url = "http://localhost:8080"
 
     def build(self):
         print("Starting site build...")
@@ -39,6 +40,9 @@ class SiteBuilder:
         for category in categories.values():
             self.renderer.render_category(category, self.output_dir)
         print(f"Rendered {len(categories)} category pages.")
+
+        self.renderer.render_sitemap(posts, self.site_url, self.output_dir)
+        print("Rendered sitemap.xml.")
 
         print("Site build finished successfully.")
 
