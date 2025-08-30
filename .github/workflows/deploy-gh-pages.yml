@@ -20,8 +20,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Python environment with uv
-        uses: astral-sh/setup-python@v1
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v1
         with:
           uv-version: 'latest'
 
@@ -34,12 +34,8 @@ jobs:
           path: ./output
 
   deploy:
-    # This job still needs the `build` job to finish
     needs: build
-    
-    # --- IMPORTANT: Only run the deploy job on a push to the main branch ---
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
     runs-on: ubuntu-latest
     environment:
       name: github-pages
