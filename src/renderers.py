@@ -57,3 +57,23 @@ class Renderer:
 
         output_file = output_dir / "sitemap.xml"
         output_file.write_text(rendered_xml)
+
+    def render_rss(
+        self,
+        posts: list[Post],
+        site_title: str,
+        site_description: str,
+        site_url: str,
+        output_dir: Path,
+    ):
+        """Renders the rss.xml file."""
+        template = self.env.get_template("rss.xml")
+        rendered_xml = template.render(
+            posts=posts,
+            site_title=site_title,
+            site_description=site_description,
+            site_url=site_url,
+        )
+
+        output_file = output_dir / "rss.xml"
+        output_file.write_text(rendered_xml)
