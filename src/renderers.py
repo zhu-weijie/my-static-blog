@@ -1,5 +1,6 @@
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
+from urllib.parse import quote_plus
 from src.models import Post, Tag, Category
 from src.paginator import Paginator
 
@@ -7,6 +8,7 @@ from src.paginator import Paginator
 class Renderer:
     def __init__(self, template_dir: Path):
         self.env = Environment(loader=FileSystemLoader(template_dir))
+        self.env.filters["urlencode"] = quote_plus
 
     def render_post(self, post: Post, output_dir: Path):
         """Renders a single post to an HTML file inside its own directory."""
