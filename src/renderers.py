@@ -10,10 +10,10 @@ class Renderer:
         self.env = Environment(loader=FileSystemLoader(template_dir))
         self.env.filters["urlencode"] = quote_plus
 
-    def render_post(self, post: Post, output_dir: Path):
+    def render_post(self, post: Post, site_url: str, output_dir: Path):
         """Renders a single post to an HTML file inside its own directory."""
         template = self.env.get_template("post.html")
-        rendered_html = template.render(post=post)
+        rendered_html = template.render(post=post, site_url=site_url)
 
         # Create the post's directory, e.g., output/posts/post-slug/
         post_dir = output_dir / "posts" / post.slug
