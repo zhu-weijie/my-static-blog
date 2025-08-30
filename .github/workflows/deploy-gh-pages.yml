@@ -22,7 +22,7 @@ jobs:
 
       # 2. Set up uv, the fast Python installer
       - name: Setup uv
-        uses: y0n3/setup-uv@v1
+        uses: astral-sh/setup-uv-action@v1
         with:
           uv-version: 'latest'
 
