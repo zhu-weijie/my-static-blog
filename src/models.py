@@ -13,3 +13,27 @@ class Post:
     slug: str
     category: Optional[str] = None
     tags: List[str] = field(default_factory=list)
+
+
+@dataclass
+class Tag:
+    """Represents a single tag and all its posts."""
+
+    name: str
+    posts: List[Post] = field(default_factory=list)
+
+    @property
+    def slug(self) -> str:
+        return self.name.lower().replace(" ", "-")
+
+
+@dataclass
+class Category:
+    """Represents a single category and all its posts."""
+
+    name: str
+    posts: List[Post] = field(default_factory=list)
+
+    @property
+    def slug(self) -> str:
+        return self.name.lower().replace(" ", "-")
