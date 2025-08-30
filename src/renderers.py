@@ -1,6 +1,6 @@
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
-from src.models import Post
+from src.models import Post, Tag, Category
 
 
 class Renderer:
@@ -25,4 +25,22 @@ class Renderer:
         rendered_html = template.render(posts=sorted_posts)
 
         output_file = output_dir / "index.html"
+        output_file.write_text(rendered_html)
+
+    def render_tag(self, tag: Tag, output_dir: Path):
+        output_dir_tag = output_dir / "tags"
+        output_dir_tag.mkdir(exist_ok=True)
+        template = self.env.get_template("tag.html")
+        title = f"Posts tagged: {tag.name}"
+        rendered_html = template.render(posts=tag.posts, title=title)
+        output_file = output_dir_tag / f"{tag.slug}.html"
+        output_file.write_text(rendered_html)
+
+    def render_category(self, category: Category, output_dir: Path):
+        output_dir_cat = output_dir / "categories"
+        output_dir_cat.mkdir(exist_ok=True)
+        template = self.env.get_template("category.html")
+        title = f"Posts in category: {category.name}"
+        rendered_html = template.render(posts=category.posts, title=title)
+        output_file = output_dir_cat / f"{category.slug}.html"
         output_file.write_text(rendered_html)
