@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p><em>Published on: {{ post.date.strftime('%B %d, %Y') }}</em></p>
+    <hr>
+    <!-- The 'safe' filter is crucial here -->
+    {{ post.content_html | safe }}
+</body>
+</html>
