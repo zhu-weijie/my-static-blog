@@ -24,4 +24,15 @@
 
     <hr>
     {{ post.content_html | safe }}
+
+    {% if post.related_posts %}
+    <section>
+        <h2>Related Posts</h2>
+        <ul>
+            {% for related in post.related_posts %}
+            <li><a href="{{ related.permalink }}">{{ related.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
 {% endblock %}
