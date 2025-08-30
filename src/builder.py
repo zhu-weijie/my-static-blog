@@ -65,6 +65,10 @@ class SiteBuilder:
 
     def _calculate_related_posts(self, all_posts: list[Post], max_related: int = 3):
         """Calculates related posts based on shared tags."""
+
+        # Create a lookup map from slug to Post object for easy access later
+        post_map = {p.slug: p for p in all_posts}
+
         # Create a dictionary mapping tags to the posts that have them
         tag_map = defaultdict(list)
         for post in all_posts:
@@ -77,16 +81,17 @@ class SiteBuilder:
             # Find other posts that share tags
             for tag in post.tags:
                 for related_post in tag_map[tag]:
-                    if related_post is not post:
-                        scores[related_post] += 1
+                    # Use the slug (a string) as the key, which is hashable
+                    if related_post.slug != post.slug:
+                        scores[related_post.slug] += 1
 
-            # Sort the posts by score in descending order
-            sorted_related = sorted(
-                scores.items(), key=lambda item: item[1], reverse=True
-            )
+            # Sort the slugs by score in descending order
+            sorted_related_slugs = sorted(scores, key=scores.get, reverse=True)
 
-            # Assign the top N posts to the related_posts field
-            post.related_posts = [p for p, score in sorted_related[:max_related]]
+            # Assign the top N posts to the related_posts field by looking them up in our map
+            post.related_posts = [
+                post_map[slug] for slug in sorted_related_slugs[:max_related]
+            ]
 
     def _collect_tags(self, posts: list[Post]) -> dict[str, Tag]:
         tags = defaultdict(lambda: Tag(name=""))
