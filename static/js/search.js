@@ -1,9 +1,22 @@
 (function() {
+    // This function delays the execution of a function until after a certain time has passed
+    // without that function being called again.
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
     function displaySearchResults(results, store) {
         const searchResults = document.getElementById('results-container');
         if (results.length) {
             let resultList = '';
-            // The ref from Lunr is the "url" we specified
             for (const result of results) {
                 const item = store.find(doc => doc.url === result.ref);
                 if (item) {
@@ -20,46 +33,31 @@
     let idx;
     let postStore;
 
-    // Fetch the search index and initialize Lunr
     fetch('/search-index.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
             postStore = data;
             idx = lunr(function () {
                 this.ref('url');
                 this.field('title', { boost: 10 });
                 this.field('content');
-                
-                data.forEach(doc => {
-                    this.add(doc);
-                }, this);
+                data.forEach(doc => this.add(doc));
             });
-
-            // --- FIX: Enable the input now that the index is ready ---
             searchInput.disabled = false;
             searchInput.placeholder = "Enter search term...";
-            searchInput.focus(); // Automatically focus the input for the user
+            searchInput.focus();
         })
         .catch(error => {
             console.error("Failed to load search index:", error);
             searchInput.placeholder = "Search is unavailable.";
         });
 
-    searchInput.addEventListener('keyup', function () {
-        // Don't search if the index isn't ready yet
-        if (!idx) {
-            return;
-        }
+    function performSearch() {
+        if (!idx) return;
 
-        const query = this.value;
+        const query = searchInput.value;
         const resultsContainer = document.getElementById('results-container');
 
-        // Clear results if the query is too short
         if (query.length < 3) {
             resultsContainer.innerHTML = '';
             return;
@@ -71,5 +69,9 @@
         } catch (error) {
             console.error("Search error:", error);
         }
-    });
+    }
+
+    // We wait 300ms after the user stops typing before searching.
+    searchInput.addEventListener('keyup', debounce(performSearch, 300));
+
 })();
