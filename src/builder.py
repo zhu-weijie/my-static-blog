@@ -1,4 +1,6 @@
 import shutil
+import json
+from bs4 import BeautifulSoup
 from pathlib import Path
 from collections import defaultdict
 from src.parsers import parse_markdown_file
@@ -76,7 +78,30 @@ class SiteBuilder:
         )
         print("Rendered rss.xml.")
 
+        self._generate_search_index(posts)
+        print("Generated search-index.json.")
+
         print("Site build finished successfully.")
+
+    def _generate_search_index(self, posts: list[Post]):
+        """Generates a JSON search index from all posts."""
+        search_data = []
+        for post in posts:
+            # We use the already rendered HTML content
+            soup = BeautifulSoup(post.content_html, "html.parser")
+            # The get_text() method extracts all the text, stripping the HTML tags
+            plain_text_content = soup.get_text()
+
+            search_data.append(
+                {
+                    "title": post.title,
+                    "url": post.permalink,
+                    "content": plain_text_content,
+                }
+            )
+
+        output_file = self.output_dir / "search-index.json"
+        output_file.write_text(json.dumps(search_data, indent=2))
 
     def _calculate_related_posts(self, all_posts: list[Post], max_related: int = 3):
         """Calculates related posts based on shared tags."""

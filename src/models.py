@@ -11,6 +11,7 @@ class Post:
     title: str
     date: date
     content_html: str
+    content_raw: str
     slug: str
     category: Optional[str] = None
     tags: List[str] = field(default_factory=list)
