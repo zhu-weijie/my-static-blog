@@ -49,3 +49,11 @@ class Renderer:
         rendered_html = template.render(posts=category.posts, title=title)
         output_file = output_dir_cat / f"{category.slug}.html"
         output_file.write_text(rendered_html)
+
+    def render_sitemap(self, posts: list[Post], site_url: str, output_dir: Path):
+        """Renders the sitemap.xml file."""
+        template = self.env.get_template("sitemap.xml")
+        rendered_xml = template.render(posts=posts, site_url=site_url)
+
+        output_file = output_dir / "sitemap.xml"
+        output_file.write_text(rendered_xml)
