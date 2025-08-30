@@ -15,7 +15,8 @@ def parse_markdown_file(filepath: Path) -> Post:
         date=metadata.get("date"),
         content_html=html_content,
         slug=filepath.stem,
-        # Extract the new metadata, providing safe defaults
         category=metadata.get("category"),
         tags=metadata.get("tags", []),
+        description=metadata.get("description"),
+        keywords=metadata.get("keywords", []),
     )
