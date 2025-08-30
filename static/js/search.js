@@ -11,10 +11,12 @@
         };
     }
 
-    function displaySearchResults(results, store) {
+    function displaySearchResults(results, store, query) {
         const searchResults = document.getElementById('results-container');
         if (results.length) {
             let resultList = '';
+            const highlightRegex = new RegExp(`(${query})`, 'gi');
+
             for (const result of results) {
                 const item = store.find(doc => doc.url === result.ref);
                 if (item) {
@@ -24,15 +26,19 @@
                         if (matchMetadata[term].content) {
                             const position = matchMetadata[term].content.position[0][0];
                             const snippetStart = Math.max(position - 50, 0);
-                            const snippetEnd = Math.min(position + 50, item.content.length);
+                            const snippetEnd = Math.min(position + 100, item.content.length);
                             snippet = '...' + item.content.substring(snippetStart, snippetEnd) + '...';
                             break;
                         }
                     }
+                    
+                    const highlightedTitle = item.title.replace(highlightRegex, '<mark>$1</mark>');
+                    const highlightedSnippet = snippet.replace(highlightRegex, '<mark>$1</mark>');
+
                     resultList += `
                         <li>
-                            <a href="${item.url}">${item.title}</a>
-                            <p>${snippet}</p>
+                            <a href="${item.url}">${highlightedTitle}</a>
+                            <p>${highlightedSnippet}</p>
                         </li>`;
                 }
             }
@@ -55,7 +61,6 @@
                 this.field('title', { boost: 10 });
                 this.field('content');
                 this.metadataWhitelist = ['position'];
-                
                 data.forEach(doc => this.add(doc));
             });
             searchInput.disabled = false;
@@ -77,7 +82,7 @@
         }
         try {
             const results = idx.search(query);
-            displaySearchResults(results, postStore);
+            displaySearchResults(results, postStore, query);
         } catch (error) {
             console.error("Search error:", error);
         }
