@@ -1,6 +1,4 @@
 (function() {
-    // This function delays the execution of a function until after a certain time has passed
-    // without that function being called again.
     function debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -20,7 +18,22 @@
             for (const result of results) {
                 const item = store.find(doc => doc.url === result.ref);
                 if (item) {
-                    resultList += `<li><a href="${item.url}">${item.title}</a></li>`;
+                    let snippet = '';
+                    const matchMetadata = result.matchData.metadata;
+                    for (const term in matchMetadata) {
+                        if (matchMetadata[term].content) {
+                            const position = matchMetadata[term].content.position[0][0];
+                            const snippetStart = Math.max(position - 50, 0);
+                            const snippetEnd = Math.min(position + 50, item.content.length);
+                            snippet = '...' + item.content.substring(snippetStart, snippetEnd) + '...';
+                            break;
+                        }
+                    }
+                    resultList += `
+                        <li>
+                            <a href="${item.url}">${item.title}</a>
+                            <p>${snippet}</p>
+                        </li>`;
                 }
             }
             searchResults.innerHTML = resultList;
@@ -41,6 +54,8 @@
                 this.ref('url');
                 this.field('title', { boost: 10 });
                 this.field('content');
+                this.metadataWhitelist = ['position'];
+                
                 data.forEach(doc => this.add(doc));
             });
             searchInput.disabled = false;
@@ -54,15 +69,12 @@
 
     function performSearch() {
         if (!idx) return;
-
         const query = searchInput.value;
         const resultsContainer = document.getElementById('results-container');
-
         if (query.length < 3) {
             resultsContainer.innerHTML = '';
             return;
         }
-        
         try {
             const results = idx.search(query);
             displaySearchResults(results, postStore);
@@ -71,7 +83,6 @@
         }
     }
 
-    // We wait 300ms after the user stops typing before searching.
     searchInput.addEventListener('keyup', debounce(performSearch, 300));
 
 })();
