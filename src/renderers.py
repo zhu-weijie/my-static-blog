@@ -1,6 +1,7 @@
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
 from src.models import Post, Tag, Category
+from src.paginator import Paginator
 
 
 class Renderer:
@@ -20,17 +21,24 @@ class Renderer:
         output_file = post_dir / "index.html"
         output_file.write_text(rendered_html)
 
-    def render_index(self, posts: list[Post], output_dir: Path):
-        """Renders the index page."""
+    def render_paginated_index(self, paginator: Paginator, output_dir: Path):
+        """Renders all paginated index pages."""
         template = self.env.get_template("index.html")
 
-        # Sort posts by date, newest first
-        sorted_posts = sorted(posts, key=lambda p: p.date, reverse=True)
+        for page_data in paginator:
+            page_num = page_data["page_num"]
 
-        rendered_html = template.render(posts=sorted_posts)
+            # Determine the output path
+            if page_num == 1:
+                page_dir = output_dir
+            else:
+                page_dir = output_dir / "page" / str(page_num)
 
-        output_file = output_dir / "index.html"
-        output_file.write_text(rendered_html)
+            page_dir.mkdir(parents=True, exist_ok=True)
+            output_file = page_dir / "index.html"
+
+            rendered_html = template.render(page=page_data)
+            output_file.write_text(rendered_html)
 
     def render_tag(self, tag: Tag, output_dir: Path):
         output_dir_tag = output_dir / "tags"
