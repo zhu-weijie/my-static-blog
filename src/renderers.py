@@ -94,3 +94,15 @@ class Renderer:
 
         output_file = output_dir / "rss.xml"
         output_file.write_text(rendered_xml)
+
+    def render_page(self, page: Post, output_dir: Path):
+        """Renders a standalone page (like Contact)."""
+        template = self.env.get_template("page.html")
+        rendered_html = template.render(page=page)
+
+        # Create the page's directory, e.g., output/contact/
+        page_dir = output_dir / page.slug
+        page_dir.mkdir(parents=True, exist_ok=True)
+
+        output_file = page_dir / "index.html"
+        output_file.write_text(rendered_html)
