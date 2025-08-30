@@ -96,13 +96,12 @@ class Renderer:
         output_file.write_text(rendered_xml)
 
     def render_page(self, page: Post, output_dir: Path):
-        """Renders a standalone page (like Contact)."""
-        template = self.env.get_template("page.html")
-        rendered_html = template.render(page=page)
+        """Renders a standalone page, allowing for a custom template."""
+        template_name = page.template or "page.html"
+        template = self.env.get_template(template_name)
 
-        # Create the page's directory, e.g., output/contact/
+        rendered_html = template.render(page=page)
         page_dir = output_dir / page.slug
         page_dir.mkdir(parents=True, exist_ok=True)
-
         output_file = page_dir / "index.html"
         output_file.write_text(rendered_html)
