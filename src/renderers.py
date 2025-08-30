@@ -5,10 +5,17 @@ from src.models import Post, Tag, Category
 from src.paginator import Paginator
 
 
+def safe_urlencode(value):
+    """A Jinja2 filter that URL-encodes a string, handling None safely."""
+    if value is None:
+        return ""
+    return quote_plus(str(value))
+
+
 class Renderer:
     def __init__(self, template_dir: Path):
         self.env = Environment(loader=FileSystemLoader(template_dir))
-        self.env.filters["urlencode"] = quote_plus
+        self.env.filters["urlencode"] = safe_urlencode
 
     def render_post(self, post: Post, site_url: str, output_dir: Path):
         """Renders a single post to an HTML file inside its own directory."""
