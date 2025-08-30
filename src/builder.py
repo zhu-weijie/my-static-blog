@@ -10,7 +10,9 @@ class SiteBuilder:
         self.content_dir = Path("content")
         self.output_dir = Path("output")
         self.renderer = Renderer(Path("templates"))
-        self.site_url = "http://localhost:8080"
+        self.site_title = "Zhu Weijie’s Weblog"
+        self.site_description = "A blog about technology and web development."
+        self.site_url = "http://localhost:8080"  # Change this for production
 
     def build(self):
         print("Starting site build...")
@@ -43,6 +45,15 @@ class SiteBuilder:
 
         self.renderer.render_sitemap(posts, self.site_url, self.output_dir)
         print("Rendered sitemap.xml.")
+
+        self.renderer.render_rss(
+            posts=posts,
+            site_title=self.site_title,
+            site_description=self.site_description,
+            site_url=self.site_url,
+            output_dir=self.output_dir,
+        )
+        print("Rendered rss.xml.")
 
         print("Site build finished successfully.")
 
