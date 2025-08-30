@@ -14,6 +14,7 @@ class SiteBuilder:
         self.renderer = Renderer(Path("templates"))
         self.site_title = "Zhu Weijie's Weblog"
         self.site_description = "A blog about technology and web development."
+        self.pages_dir = Path("pages")
         self.site_url = "http://localhost:8080"  # Change this for production
         self.static_dir = Path("static")
         self.posts_per_page = 1
@@ -27,6 +28,12 @@ class SiteBuilder:
         if self.static_dir.exists():
             shutil.copytree(self.static_dir, self.output_dir / "static")
             print("Copied static files.")
+
+        pages = [parse_markdown_file(fp) for fp in self.pages_dir.glob("*.md")]
+        for page in pages:
+            # We are re-using the Post model for simplicity
+            self.renderer.render_page(page, self.output_dir)
+        print(f"Rendered {len(pages)} standalone pages.")
 
         # 1. Parse all content
         posts = [parse_markdown_file(fp) for fp in self.content_dir.glob("*.md")]
