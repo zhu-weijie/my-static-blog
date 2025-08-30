@@ -14,6 +14,11 @@ class Post:
     category: Optional[str] = None
     tags: List[str] = field(default_factory=list)
 
+    @property
+    def permalink(self) -> str:
+        """Generates the permanent link for the post."""
+        return f"/posts/{self.slug}/"
+
 
 @dataclass
 class Tag:
