@@ -8,11 +8,16 @@ class Renderer:
         self.env = Environment(loader=FileSystemLoader(template_dir))
 
     def render_post(self, post: Post, output_dir: Path):
-        """Renders a single post to an HTML file."""
+        """Renders a single post to an HTML file inside its own directory."""
         template = self.env.get_template("post.html")
         rendered_html = template.render(post=post)
 
-        output_file = output_dir / f"{post.slug}.html"
+        # Create the post's directory, e.g., output/posts/post-slug/
+        post_dir = output_dir / "posts" / post.slug
+        post_dir.mkdir(parents=True, exist_ok=True)
+
+        # Write the content to index.html within that directory
+        output_file = post_dir / "index.html"
         output_file.write_text(rendered_html)
 
     def render_index(self, posts: list[Post], output_dir: Path):
