@@ -1,3 +1,4 @@
+from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import date
 from typing import Optional, List
@@ -15,6 +16,7 @@ class Post:
     tags: List[str] = field(default_factory=list)
     description: Optional[str] = None
     keywords: List[str] = field(default_factory=list)
+    related_posts: List[Post] = field(default_factory=list)
 
     @property
     def permalink(self) -> str:
