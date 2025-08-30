@@ -25,6 +25,9 @@ class SiteBuilder:
         posts.sort(key=lambda p: p.date, reverse=True)  # Sort posts once
         print(f"Found and parsed {len(posts)} posts.")
 
+        self._calculate_related_posts(posts)
+        print("Calculated related posts.")
+
         # 2. Group posts by tags and categories
         tags = self._collect_tags(posts)
         categories = self._collect_categories(posts)
@@ -59,6 +62,31 @@ class SiteBuilder:
         print("Rendered rss.xml.")
 
         print("Site build finished successfully.")
+
+    def _calculate_related_posts(self, all_posts: list[Post], max_related: int = 3):
+        """Calculates related posts based on shared tags."""
+        # Create a dictionary mapping tags to the posts that have them
+        tag_map = defaultdict(list)
+        for post in all_posts:
+            for tag in post.tags:
+                tag_map[tag].append(post)
+
+        # Calculate scores for each post
+        for post in all_posts:
+            scores = defaultdict(int)
+            # Find other posts that share tags
+            for tag in post.tags:
+                for related_post in tag_map[tag]:
+                    if related_post is not post:
+                        scores[related_post] += 1
+
+            # Sort the posts by score in descending order
+            sorted_related = sorted(
+                scores.items(), key=lambda item: item[1], reverse=True
+            )
+
+            # Assign the top N posts to the related_posts field
+            post.related_posts = [p for p, score in sorted_related[:max_related]]
 
     def _collect_tags(self, posts: list[Post]) -> dict[str, Tag]:
         tags = defaultdict(lambda: Tag(name=""))
