@@ -13,6 +13,7 @@ class SiteBuilder:
         self.site_title = "Zhu Weijie’s Weblog"
         self.site_description = "A blog about technology and web development."
         self.site_url = "http://localhost:8080"  # Change this for production
+        self.posts_per_page = 1
 
     def build(self):
         print("Starting site build...")
