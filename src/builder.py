@@ -10,7 +10,7 @@ class SiteBuilder:
         self.content_dir = Path("content")
         self.output_dir = Path("output")
         self.renderer = Renderer(Path("templates"))
-        self.site_title = "My Awesome Blog"
+        self.site_title = "Zhu Weijie’s Weblog"
         self.site_description = "A blog about technology and web development."
         self.site_url = "http://localhost:8080"  # Change this for production
 
