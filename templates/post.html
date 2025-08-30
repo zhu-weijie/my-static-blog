@@ -7,8 +7,22 @@
 <body>
     <h1>{{ post.title }}</h1>
     <p><em>Published on: {{ post.date.strftime('%B %d, %Y') }}</em></p>
+    
+    <!-- Display Category and Tags -->
+    <div>
+        {% if post.category %}
+            <span>Category: {{ post.category }}</span>
+        {% endif %}
+        {% if post.tags %}
+            <p>Tags: 
+            {% for tag in post.tags %}
+                <span>#{{ tag }}</span>
+            {% endfor %}
+            </p>
+        {% endif %}
+    </div>
+
     <hr>
-    <!-- The 'safe' filter is crucial here -->
     {{ post.content_html | safe }}
 </body>
 </html>
