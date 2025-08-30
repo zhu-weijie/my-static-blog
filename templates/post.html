@@ -35,4 +35,16 @@
         </ul>
     </section>
     {% endif %}
+
+    <section>
+        <h3>Share this post</h3>
+        <p>
+            <!-- Updated Twitter to X -->
+            <a href="https://x.com/intent/tweet?text={{ post.title | urlencode }}&url={{ site_url }}{{ post.permalink }}" target="_blank" rel="noopener">Share on X</a>
+            &nbsp;&bull;&nbsp;
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ site_url }}{{ post.permalink }}&title={{ post.title | urlencode }}&summary={{ post.description | urlencode }}" target="_blank" rel="noopener">Share on LinkedIn</a>
+            &nbsp;&bull;&nbsp;
+            <a href="mailto:?subject={{ post.title | urlencode }}&body=Check out this post: {{ site_url }}{{ post.permalink }}" target="_blank" rel="noopener">Share via Email</a>
+        </p>
+    </section>
 {% endblock %}

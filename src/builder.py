@@ -42,7 +42,7 @@ class SiteBuilder:
 
         # 3. Render everything
         for post in posts:
-            self.renderer.render_post(post, self.output_dir)
+            self.renderer.render_post(post, self.site_url, self.output_dir)
         print("Rendered individual posts.")
 
         paginator = Paginator(posts, self.posts_per_page)
