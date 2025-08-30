@@ -10,6 +10,7 @@ COPY src ./src
 COPY content ./content
 COPY templates ./templates
 COPY static ./static
+COPY pages ./pages
 
 # install Python with uv
 RUN uv python install 3.12
