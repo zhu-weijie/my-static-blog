@@ -13,6 +13,8 @@ class Post:
     slug: str
     category: Optional[str] = None
     tags: List[str] = field(default_factory=list)
+    description: Optional[str] = None
+    keywords: List[str] = field(default_factory=list)
 
     @property
     def permalink(self) -> str:
