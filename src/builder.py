@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 from collections import defaultdict
 from src.parsers import parse_markdown_file
@@ -14,11 +15,18 @@ class SiteBuilder:
         self.site_title = "Zhu Weijie's Weblog"
         self.site_description = "A blog about technology and web development."
         self.site_url = "http://localhost:8080"  # Change this for production
+        self.static_dir = Path("static")
         self.posts_per_page = 1
 
     def build(self):
         print("Starting site build...")
+        if self.output_dir.exists():
+            shutil.rmtree(self.output_dir)
         self.output_dir.mkdir(exist_ok=True)
+
+        if self.static_dir.exists():
+            shutil.copytree(self.static_dir, self.output_dir / "static")
+            print("Copied static files.")
 
         # 1. Parse all content
         posts = [parse_markdown_file(fp) for fp in self.content_dir.glob("*.md")]
