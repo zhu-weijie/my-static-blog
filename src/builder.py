@@ -15,9 +15,9 @@ class SiteBuilder:
         self.site_title = "Zhu Weijie's Weblog"
         self.site_description = "A blog about technology and web development."
         self.pages_dir = Path("pages")
-        self.site_url = "http://localhost:8080"  # Change this for production
+        self.site_url = "https://zhu-weijie.github.io"
         self.static_dir = Path("static")
-        self.posts_per_page = 1
+        self.posts_per_page = 20
 
     def build(self):
         print("Starting site build...")
