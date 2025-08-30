@@ -4,10 +4,11 @@
 
 {% block content %}
     <h1>Search</h1>
-    <input type="text" id="search-input" placeholder="Enter search term...">
+
+    <input type="text" id="search-input" placeholder="Loading search index..." disabled>
     <ul id="results-container"></ul>
 
-    <!-- Include our JavaScript files -->
+
     <script src="/static/js/lunr.js"></script>
     <script src="/static/js/search.js"></script>
 {% endblock %}

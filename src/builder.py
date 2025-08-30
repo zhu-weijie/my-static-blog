@@ -87,16 +87,23 @@ class SiteBuilder:
         """Generates a JSON search index from all posts."""
         search_data = []
         for post in posts:
-            # We use the already rendered HTML content
+            # Combine title, tags, category, and content into one string
+            tags_text = " ".join(post.tags)
+            category_text = post.category or ""
+
             soup = BeautifulSoup(post.content_html, "html.parser")
-            # The get_text() method extracts all the text, stripping the HTML tags
             plain_text_content = soup.get_text()
+
+            # The final searchable content
+            searchable_content = (
+                f"{post.title} {tags_text} {category_text} {plain_text_content}"
+            )
 
             search_data.append(
                 {
                     "title": post.title,
                     "url": post.permalink,
-                    "content": plain_text_content,
+                    "content": searchable_content,
                 }
             )
 
