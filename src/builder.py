@@ -3,6 +3,7 @@ from collections import defaultdict
 from src.parsers import parse_markdown_file
 from src.renderers import Renderer
 from src.models import Post, Tag, Category  # Import new models
+from src.paginator import Paginator
 
 
 class SiteBuilder:
@@ -33,8 +34,9 @@ class SiteBuilder:
             self.renderer.render_post(post, self.output_dir)
         print("Rendered individual posts.")
 
-        self.renderer.render_index(posts, self.output_dir)
-        print("Rendered index page.")
+        paginator = Paginator(posts, self.posts_per_page)
+        self.renderer.render_paginated_index(paginator, self.output_dir)
+        print(f"Rendered {paginator.total_pages} index pages.")
 
         for tag in tags.values():
             self.renderer.render_tag(tag, self.output_dir)
