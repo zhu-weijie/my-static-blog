@@ -1,11 +1,12 @@
-# pyproject.toml (Corrected)
+# pyproject.toml
 [project]
 name = "my-static-blog"
 version = "0.1.0"
-# Add your dependency here
 dependencies = [
-    "markdown"
+    "Jinja2",
+    "markdown",
+    "python-frontmatter"  # Add this line
 ]
 
 [project.scripts]
-build = "src.build:main"
+build = "src.main:run"
