@@ -3,9 +3,12 @@
         const searchResults = document.getElementById('results-container');
         if (results.length) {
             let resultList = '';
-            for (const n in results) {
-                const item = store[results[n].ref];
-                resultList += '<li><a href="' + item.url + '">' + item.title + '</a></li>';
+            // The ref from Lunr is the "url" we specified
+            for (const result of results) {
+                const item = store.find(doc => doc.url === result.ref);
+                if (item) {
+                    resultList += `<li><a href="${item.url}">${item.title}</a></li>`;
+                }
             }
             searchResults.innerHTML = resultList;
         } else {
@@ -14,12 +17,17 @@
     }
 
     const searchInput = document.getElementById('search-input');
-
-    // Fetch the search index and initialize Lunr
     let idx;
     let postStore;
+
+    // Fetch the search index and initialize Lunr
     fetch('/search-index.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             postStore = data;
             idx = lunr(function () {
@@ -27,18 +35,41 @@
                 this.field('title', { boost: 10 });
                 this.field('content');
                 
-                data.forEach(function (doc) {
+                data.forEach(doc => {
                     this.add(doc);
                 }, this);
             });
+
+            // --- FIX: Enable the input now that the index is ready ---
+            searchInput.disabled = false;
+            searchInput.placeholder = "Enter search term...";
+            searchInput.focus(); // Automatically focus the input for the user
+        })
+        .catch(error => {
+            console.error("Failed to load search index:", error);
+            searchInput.placeholder = "Search is unavailable.";
         });
 
     searchInput.addEventListener('keyup', function () {
-        const query = this.value;
-        if (query.length < 3) {
+        // Don't search if the index isn't ready yet
+        if (!idx) {
             return;
         }
-        const results = idx.search(query);
-        displaySearchResults(results, postStore);
+
+        const query = this.value;
+        const resultsContainer = document.getElementById('results-container');
+
+        // Clear results if the query is too short
+        if (query.length < 3) {
+            resultsContainer.innerHTML = '';
+            return;
+        }
+        
+        try {
+            const results = idx.search(query);
+            displaySearchResults(results, postStore);
+        } catch (error) {
+            console.error("Search error:", error);
+        }
     });
 })();
