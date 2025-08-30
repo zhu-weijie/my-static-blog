@@ -9,6 +9,7 @@ COPY pyproject.toml .
 COPY src ./src
 COPY content ./content
 COPY templates ./templates
+COPY static ./static
 
 # install Python with uv
 RUN uv python install 3.12
