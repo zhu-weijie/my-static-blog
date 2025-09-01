@@ -3,8 +3,8 @@ title: "The Complete Model for Good System Design"
 date: 2025-08-31
 category: "System Design"
 tags:
-  - System Design
-  - Good Design
+  - system-design
+  - good-design
 description: "A comprehensive blueprint for designing and building robust, scalable, and secure systems."
 keywords:
   - System Design

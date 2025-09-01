@@ -3,8 +3,8 @@ title: "Building a Self-Updating GitHub Profile README"
 date: 2025-08-31
 category: "Github"
 tags:
-  - Github
-  - Automation
+  - github
+  - automation
 description: "A guide to building a self-updating GitHub profile README."
 keywords:
   - Github

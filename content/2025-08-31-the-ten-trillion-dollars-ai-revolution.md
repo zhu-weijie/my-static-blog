@@ -3,8 +3,8 @@ title: "The $10 Trillion AI Revolution"
 date: 2025-08-31
 category: "AI"
 tags:
-  - AI
-  - Investment
+  - ai
+  - investment
 description: "A summary of key ideas from Sequoia Capital's speech on the AI revolution and an open-source project that brings these concepts to life."
 keywords:
   - AI Revolution
