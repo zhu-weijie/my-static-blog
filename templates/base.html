@@ -7,29 +7,42 @@
     <!-- SEO Meta Tags -->
     <meta name="description" content="{% block meta_description %}My personal blog about technology and web development.{% endblock %}">
     <meta name="keywords" content="{% block meta_keywords %}python, docker, webdev, blog{% endblock %}">
-
+    
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Zhu Weijie's Weblog" href="/rss.xml">
     <link rel="stylesheet" href="/static/css/style.css">
-    
+
     <title>{% block title %}Zhu Weijie's Weblog{% endblock %}</title>
 </head>
 <body>
-    <header>
-        <!-- Maybe add a nav bar here later -->
-    </header>
-    
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+    <div class="container">
+        
+        <!-- Site Header and Navigation -->
+        <header class="site-header">
+            <div class="site-title">
+                <a href="/">Zhu Weijie's Weblog</a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                    <li><a href="/search/">Search</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            {% block content %}{% endblock %}
+        </main>
 
-    <footer>
-        <p>
-            <a href="/">Home</a>
-            &nbsp;&bull;&nbsp;
-            <a href="/contact/">Contact</a>
-            &nbsp;&bull;&nbsp;
-            <a href="/search/">Search</a>
-        </p>
-    </footer>
+        <footer>
+            <nav class="footer-nav">
+                <a href="/">Home</a>
+                &nbsp;&bull;&nbsp;
+                <a href="/contact/">Contact</a>
+                &nbsp;&bull;&nbsp;
+                <a href="/search/">Search</a>
+            </nav>
+        </footer>
+    </div>
 </body>
 </html>
