@@ -7,7 +7,10 @@ from src.models import Post
 def parse_markdown_file(filepath: Path) -> Post:
     """Parses a markdown file with frontmatter and returns a Post object."""
     post_fm = frontmatter.load(filepath)
-    html_content = markdown.markdown(post_fm.content)
+
+    extensions = ["fenced_code", "codehilite"]
+    html_content = markdown.markdown(post_fm.content, extensions=extensions)
+
     metadata = post_fm.metadata
 
     return Post(
