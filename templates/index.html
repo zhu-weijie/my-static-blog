@@ -1,19 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Zhu Weijie's Weblog</h1>
-    <ul>
-        <!-- Now we loop through page.posts -->
+    <ul class="post-list">
         {% for post in page.posts %}
         <li>
             <a href="{{ post.permalink }}">{{ post.title }}</a>
-            - {{ post.date.strftime('%Y-%m-%d') }}
+            <span class="post-date">- {{ post.date.strftime('%Y-%m-%d') }}</span>
         </li>
         {% endfor %}
     </ul>
 
-    <!-- Pagination Navigation -->
-    <nav>
+    <nav class="pagination">
         {% if page.has_prev %}
             {% if page.prev_page_num == 1 %}
                 <a href="/">&laquo; Previous</a>
@@ -22,7 +19,7 @@
             {% endif %}
         {% endif %}
         
-        <span>Page {{ page.page_num }} of {{ page.total_pages }}</span>
+        <span class="page-number">Page {{ page.page_num }} of {{ page.total_pages }}</span>
 
         {% if page.has_next %}
             <a href="/page/{{ page.next_page_num }}/">Next &raquo;</a>
