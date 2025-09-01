@@ -6,7 +6,8 @@ dependencies = [
     "Jinja2",
     "markdown",
     "python-frontmatter",
-    "beautifulsoup4"
+    "beautifulsoup4",
+    "Pygments",
 ]
 
 [project.scripts]

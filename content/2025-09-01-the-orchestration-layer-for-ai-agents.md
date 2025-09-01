@@ -43,7 +43,7 @@ Our mission is to provide a robust, declarative, and extensible framework for de
 Orquestra introduces a set of simple primitives:
 
 *   **Workflow:** A declarative YAML file that defines your entire multi-agent process. It's your single source of truth.
-*   **Agent:** A definition for a specialized AI worker, specifying its provider (`openai`, `anthropic`) and model (`gpt-4o`, `claude-3-opus`).
+*   **Agent:** A definition for a specialized AI worker, specifying its provider (`openai`, `anthropic`) and model (`gpt-5-mini`, `claude-opus-4-1-20250805`).
 *   **Task:** A single unit of work assigned to an `Agent`, complete with its instructions and dependencies on other tasks.
 *   **Context:** A shared "working memory" that allows tasks to seamlessly pass outputs to subsequent tasks.
 
@@ -55,10 +55,10 @@ name: Blog Post Creation
 agents:
   - name: writer_agent
     provider: openai
-    model: gpt-4o
+    model: gpt-5-mini
   - name: editor_agent
     provider: anthropic
-    model: claude-3-opus
+    model: claude-4-1-opus-20250911
 tasks:
   - name: draft_blog_post
     agent: writer_agent
