@@ -23,7 +23,10 @@
     </div>
 
     <hr>
-    {{ post.content_html | safe }}
+
+    <div class="content-area">
+        {{ post.content_html | safe }}
+    </div>
 
     {% if post.related_posts %}
     <section>
