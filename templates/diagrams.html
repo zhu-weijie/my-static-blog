@@ -1,1 +1,5 @@
 {% extends "list.html" %}
+
+{% block head_extra %}
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for Diagrams - {{ site_title }}" href="/diagrams/rss.xml">
+{% endblock %}
