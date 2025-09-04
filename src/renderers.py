@@ -117,3 +117,25 @@ class Renderer:
         rendered_html = template.render(posts=diagrams, title=title)
         output_file = diagrams_dir / "index.html"
         output_file.write_text(rendered_html)
+
+    def render_diagrams_rss(
+        self, diagrams: list[Post], site_title: str, site_url: str, output_dir: Path
+    ):
+        """Renders the rss.xml file specifically for diagrams."""
+        diagrams_dir = output_dir / "diagrams"
+        diagrams_dir.mkdir(exist_ok=True)
+
+        template = self.env.get_template("rss.xml")
+
+        feed_title = f"Diagrams - {site_title}"
+        feed_description = "A feed of the latest diagrams and visual explanations."
+
+        rendered_xml = template.render(
+            posts=diagrams,
+            site_title=feed_title,
+            site_description=feed_description,
+            site_url=site_url,
+        )
+
+        output_file = diagrams_dir / "rss.xml"
+        output_file.write_text(rendered_xml)
