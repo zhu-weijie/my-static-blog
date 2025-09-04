@@ -265,3 +265,8 @@ footer {
 .mermaid {
     text-align: center;
 }
+
+.mermaid svg {
+    max-width: 100%; /* Never allow the SVG to be wider than its container */
+    height: auto;    /* Scale the height automatically to maintain aspect ratio */
+}
