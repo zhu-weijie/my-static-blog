@@ -89,6 +89,14 @@ class SiteBuilder:
         )
         print("Rendered sitemap and RSS feed for posts.")
 
+        self.renderer.render_diagrams_rss(
+            diagrams=diagrams,
+            site_title=self.site_title,
+            site_url=self.site_url,
+            output_dir=self.output_dir,
+        )
+        print("Rendered RSS feed for diagrams.")
+
         # The search index should include EVERYTHING
         self._generate_search_index(all_content)
         print("Generated global search index.")
