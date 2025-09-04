@@ -5,7 +5,7 @@ from pathlib import Path
 from collections import defaultdict
 from src.parsers import parse_markdown_file
 from src.renderers import Renderer
-from src.models import Post, Tag, Category  # Import new models
+from src.models import Post, Tag, Category
 from src.paginator import Paginator
 
 
@@ -23,6 +23,7 @@ class SiteBuilder:
 
     def build(self):
         print("Starting site build...")
+
         if self.output_dir.exists():
             shutil.rmtree(self.output_dir)
         self.output_dir.mkdir(exist_ok=True)
@@ -31,44 +32,51 @@ class SiteBuilder:
             shutil.copytree(self.static_dir, self.output_dir / "static")
             print("Copied static files.")
 
+        # 1. First, parse ALL markdown content from all source directories
+        all_content = [parse_markdown_file(fp) for fp in self.content_dir.glob("*.md")]
         pages = [parse_markdown_file(fp) for fp in self.pages_dir.glob("*.md")]
-        for page in pages:
-            # We are re-using the Post model for simplicity
-            self.renderer.render_page(page, self.output_dir)
-        print(f"Rendered {len(pages)} standalone pages.")
 
-        # 1. Parse all content
-        posts = [parse_markdown_file(fp) for fp in self.content_dir.glob("*.md")]
-        posts.sort(key=lambda p: p.date, reverse=True)  # Sort posts once
+        # 2. Next, filter the content into different types
+        posts = sorted(
+            [p for p in all_content if p.type == "post"],
+            key=lambda p: p.date,
+            reverse=True,
+        )
+        diagrams = sorted(
+            [p for p in all_content if p.type == "diagram"],
+            key=lambda p: p.date,
+            reverse=True,
+        )
+
         print(f"Found and parsed {len(posts)} posts.")
+        print(f"Found and parsed {len(diagrams)} diagrams.")
+        print(f"Found and parsed {len(pages)} standalone pages.")
 
+        # 3. Now, use the 'posts' list for all the original build steps
         self._calculate_related_posts(posts)
-        print("Calculated related posts.")
-
-        # 2. Group posts by tags and categories
         tags = self._collect_tags(posts)
         categories = self._collect_categories(posts)
 
-        # 3. Render everything
-        for post in posts:
-            self.renderer.render_post(post, self.site_url, self.output_dir)
-        print("Rendered individual posts.")
+        # Render pages and posts (now includes diagrams as they are also 'Post' objects)
+        for page in pages:
+            self.renderer.render_page(page, self.output_dir)
+        for item in all_content:
+            self.renderer.render_post(item, self.site_url, self.output_dir)
+        print("Rendered individual content pages.")
 
-        paginator = Paginator(posts, self.posts_per_page)
-        self.renderer.render_paginated_index(paginator, self.output_dir)
-        print(f"Rendered {paginator.total_pages} index pages.")
-
+        # Tag and Category pages are still based on 'posts'
         for tag in tags.values():
             self.renderer.render_tag(tag, self.output_dir)
-        print(f"Rendered {len(tags)} tag pages.")
-
         for category in categories.values():
             self.renderer.render_category(category, self.output_dir)
-        print(f"Rendered {len(categories)} category pages.")
+        print(f"Rendered {len(tags)} tag and {len(categories)} category pages.")
+
+        # The main index and feeds are still based on 'posts'
+        paginator = Paginator(posts, self.posts_per_page)
+        self.renderer.render_paginated_index(paginator, self.output_dir)
+        print(f"Rendered {paginator.total_pages} main index pages.")
 
         self.renderer.render_sitemap(posts, self.site_url, self.output_dir)
-        print("Rendered sitemap.xml.")
-
         self.renderer.render_rss(
             posts=posts,
             site_title=self.site_title,
@@ -76,10 +84,11 @@ class SiteBuilder:
             site_url=self.site_url,
             output_dir=self.output_dir,
         )
-        print("Rendered rss.xml.")
+        print("Rendered sitemap and RSS feed for posts.")
 
-        self._generate_search_index(posts)
-        print("Generated search-index.json.")
+        # The search index should include EVERYTHING
+        self._generate_search_index(all_content)
+        print("Generated global search index.")
 
         print("Site build finished successfully.")
 
