@@ -10,9 +10,6 @@
     <p><em>Published on: {{ post.date.strftime('%B %d, %Y') }}</em></p>
     
     <div>
-        {% if post.category %}
-            <span>Category: <a href="/categories/{{ post.category | lower }}.html">{{ post.category }}</a></span>
-        {% endif %}
         {% if post.tags %}
             <p>Tags: 
             {% for tag in post.tags %}

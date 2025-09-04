@@ -1,7 +1,6 @@
 ---
 title: "The Orchestration Layer for AI Agents"
 date: 2025-09-01
-category: "AI"
 tags:
   - ai
   - orchestration
