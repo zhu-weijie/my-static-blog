@@ -14,6 +14,7 @@ class Post:
     content_raw: str
     slug: str
     template: Optional[str] = None
+    type: str = "post"
     category: Optional[str] = None
     tags: List[str] = field(default_factory=list)
     description: Optional[str] = None
