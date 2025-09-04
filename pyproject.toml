@@ -8,6 +8,7 @@ dependencies = [
     "python-frontmatter",
     "beautifulsoup4",
     "Pygments",
+    "pymdown-extensions",
 ]
 
 [project.scripts]
