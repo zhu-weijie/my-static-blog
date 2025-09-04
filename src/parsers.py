@@ -15,6 +15,7 @@ def parse_markdown_file(filepath: Path) -> Post:
                 {
                     "name": "mermaid",
                     "class": "mermaid",
+                    "format": lambda source, language, css_class, options, md, **kwargs: f'<pre class="mermaid">{source}</pre>',
                 }
             ]
         }
