@@ -39,7 +39,6 @@ def parse_markdown_file(filepath: Path) -> Post:
         slug=filepath.stem,
         template=metadata.get("template"),
         type=metadata.get("type", "post"),
-        category=metadata.get("category"),
         tags=metadata.get("tags", []),
         description=metadata.get("description"),
         keywords=metadata.get("keywords", []),
