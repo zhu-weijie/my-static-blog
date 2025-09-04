@@ -1,7 +1,6 @@
 ---
 title: "Building a Self-Updating GitHub Profile README"
 date: 2025-08-31
-category: "Github"
 tags:
   - github
   - automation
