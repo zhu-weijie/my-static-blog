@@ -1,7 +1,7 @@
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
 from urllib.parse import quote_plus
-from src.models import Post, Tag, Category
+from src.models import Post, Tag
 from src.paginator import Paginator
 
 
@@ -56,15 +56,6 @@ class Renderer:
         title = f"Posts tagged: {tag.name}"
         rendered_html = template.render(posts=tag.posts, title=title)
         output_file = output_dir_tag / f"{tag.slug}.html"
-        output_file.write_text(rendered_html)
-
-    def render_category(self, category: Category, output_dir: Path):
-        output_dir_cat = output_dir / "categories"
-        output_dir_cat.mkdir(exist_ok=True)
-        template = self.env.get_template("category.html")
-        title = f"Posts in category: {category.name}"
-        rendered_html = template.render(posts=category.posts, title=title)
-        output_file = output_dir_cat / f"{category.slug}.html"
         output_file.write_text(rendered_html)
 
     def render_sitemap(self, posts: list[Post], site_url: str, output_dir: Path):
