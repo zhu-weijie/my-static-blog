@@ -5,7 +5,7 @@ from pathlib import Path
 from collections import defaultdict
 from src.parsers import parse_markdown_file
 from src.renderers import Renderer
-from src.models import Post, Tag, Category
+from src.models import Post, Tag
 from src.paginator import Paginator
 
 
@@ -55,7 +55,6 @@ class SiteBuilder:
         # 3. Now, use the 'posts' list for all the original build steps
         self._calculate_related_posts(posts)
         tags = self._collect_tags(posts)
-        categories = self._collect_categories(posts)
 
         # Render pages and posts (now includes diagrams as they are also 'Post' objects)
         for page in pages:
@@ -64,12 +63,11 @@ class SiteBuilder:
             self.renderer.render_post(item, self.site_url, self.output_dir)
         print("Rendered individual content pages.")
 
-        # Tag and Category pages are still based on 'posts'
+        # Tag pages are still based on 'posts'
         for tag in tags.values():
             self.renderer.render_tag(tag, self.output_dir)
-        for category in categories.values():
-            self.renderer.render_category(category, self.output_dir)
-        print(f"Rendered {len(tags)} tag and {len(categories)} category pages.")
+
+        print(f"Rendered {len(tags)} tag.")
 
         self.renderer.render_diagrams_index(diagrams, self.output_dir)
         print("Rendered diagrams index page.")
@@ -107,17 +105,14 @@ class SiteBuilder:
         """Generates a JSON search index from all posts."""
         search_data = []
         for post in posts:
-            # Combine title, tags, category, and content into one string
+            # Combine title, tags, and content into one string
             tags_text = " ".join(post.tags)
-            category_text = post.category or ""
 
             soup = BeautifulSoup(post.content_html, "html.parser")
             plain_text_content = soup.get_text()
 
             # The final searchable content
-            searchable_content = (
-                f"{post.title} {tags_text} {category_text} {plain_text_content}"
-            )
+            searchable_content = f"{post.title} {tags_text} {plain_text_content}"
 
             search_data.append(
                 {
@@ -168,13 +163,3 @@ class SiteBuilder:
                     tags[tag_name].name = tag_name
                 tags[tag_name].posts.append(post)
         return tags
-
-    def _collect_categories(self, posts: list[Post]) -> dict[str, Category]:
-        categories = defaultdict(lambda: Category(name=""))
-        for post in posts:
-            if post.category:
-                cat_name = post.category
-                if not categories[cat_name].name:
-                    categories[cat_name].name = cat_name
-                categories[cat_name].posts.append(post)
-        return categories
