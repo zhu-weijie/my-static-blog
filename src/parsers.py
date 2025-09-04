@@ -5,11 +5,24 @@ from src.models import Post
 
 
 def parse_markdown_file(filepath: Path) -> Post:
-    """Parses a markdown file with frontmatter and returns a Post object."""
     post_fm = frontmatter.load(filepath)
 
-    extensions = ["fenced_code", "codehilite"]
-    html_content = markdown.markdown(post_fm.content, extensions=extensions)
+    extensions = ["pymdownx.superfences", "codehilite"]
+
+    extension_configs = {
+        "pymdownx.superfences": {
+            "custom_fences": [
+                {
+                    "name": "mermaid",
+                    "class": "mermaid",
+                }
+            ]
+        }
+    }
+
+    html_content = markdown.markdown(
+        post_fm.content, extensions=extensions, extension_configs=extension_configs
+    )
 
     metadata = post_fm.metadata
 
