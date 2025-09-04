@@ -71,6 +71,9 @@ class SiteBuilder:
             self.renderer.render_category(category, self.output_dir)
         print(f"Rendered {len(tags)} tag and {len(categories)} category pages.")
 
+        self.renderer.render_diagrams_index(diagrams, self.output_dir)
+        print("Rendered diagrams index page.")
+
         # The main index and feeds are still based on 'posts'
         paginator = Paginator(posts, self.posts_per_page)
         self.renderer.render_paginated_index(paginator, self.output_dir)
