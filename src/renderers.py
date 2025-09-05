@@ -86,6 +86,7 @@ class Renderer:
         site_description: str,
         site_url: str,
         output_dir: Path,
+        limit: int,
     ):
         """Renders the rss.xml file."""
         template = self.env.get_template("rss.xml")
@@ -94,6 +95,7 @@ class Renderer:
             site_title=site_title,
             site_description=site_description,
             site_url=site_url,
+            limit=limit,
         )
 
         output_file = output_dir / "rss.xml"
@@ -123,7 +125,12 @@ class Renderer:
         output_file.write_text(rendered_html)
 
     def render_diagrams_rss(
-        self, diagrams: list[Post], site_title: str, site_url: str, output_dir: Path
+        self,
+        diagrams: list[Post],
+        site_title: str,
+        site_url: str,
+        output_dir: Path,
+        limit: int,
     ):
         """Renders the rss.xml file specifically for diagrams."""
         diagrams_dir = output_dir / "diagrams"
@@ -139,6 +146,7 @@ class Renderer:
             site_title=feed_title,
             site_description=feed_description,
             site_url=site_url,
+            limit=limit,
         )
 
         output_file = diagrams_dir / "rss.xml"
