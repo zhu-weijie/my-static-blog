@@ -19,7 +19,8 @@ class SiteBuilder:
         self.pages_dir = Path("pages")
         self.site_url = "https://zhu-weijie.github.io"
         self.static_dir = Path("static")
-        self.posts_per_page = 20
+        self.posts_per_page = 50
+        self.rss_feed_limit = 20
 
     def build(self):
         print("Starting site build...")
@@ -94,6 +95,7 @@ class SiteBuilder:
             site_description=self.site_description,
             site_url=self.site_url,
             output_dir=self.output_dir,
+            limit=self.rss_feed_limit,
         )
         print("Rendered sitemap and RSS feed for posts.")
 
@@ -102,6 +104,7 @@ class SiteBuilder:
             site_title=self.site_title,
             site_url=self.site_url,
             output_dir=self.output_dir,
+            limit=self.rss_feed_limit,
         )
         print("Rendered RSS feed for diagrams.")
 
