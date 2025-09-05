@@ -32,8 +32,13 @@
     </div>
 
     {% if post.related_posts %}
-    <section>
-        <h2>Related Posts</h2>
+    <section class="related-content">
+        {% if post.type == 'diagram' %}
+            <h2>Related Diagrams</h2>
+        {% else %}
+            <h2>Related Posts</h2>
+        {% endif %}
+
         <ul>
             {% for related in post.related_posts %}
             <li><a href="{{ related.permalink }}">{{ related.title }}</a></li>
