@@ -54,7 +54,11 @@ class SiteBuilder:
 
         # 3. Now, use the 'posts' list for all the original build steps
         self._calculate_related_posts(posts)
-        tags = self._collect_tags(posts)
+        post_tags = self._collect_tags(posts)
+        diagram_tags = self._collect_tags(diagrams)
+        print(
+            f"Collected {len(post_tags)} tags for posts and {len(diagram_tags)} tags for diagrams."
+        )
 
         # Render pages and posts (now includes diagrams as they are also 'Post' objects)
         for page in pages:
@@ -64,10 +68,13 @@ class SiteBuilder:
         print("Rendered individual content pages.")
 
         # Tag pages are still based on 'posts'
-        for tag in tags.values():
+        for tag in post_tags.values():
             self.renderer.render_tag(tag, self.output_dir)
+        print(f"Rendered {len(post_tags)} post tag pages.")
 
-        print(f"Rendered {len(tags)} tag.")
+        for tag in diagram_tags.values():
+            self.renderer.render_diagram_tag(tag, self.output_dir)
+        print(f"Rendered {len(diagram_tags)} diagram tag pages.")
 
         self.renderer.render_diagrams_index(diagrams, self.output_dir)
         print("Rendered diagrams index page.")
@@ -155,11 +162,11 @@ class SiteBuilder:
                 post_map[slug] for slug in sorted_related_slugs[:max_related]
             ]
 
-    def _collect_tags(self, posts: list[Post]) -> dict[str, Tag]:
+    def _collect_tags(self, content_items: list[Post]) -> dict[str, Tag]:
         tags = defaultdict(lambda: Tag(name=""))
-        for post in posts:
-            for tag_name in post.tags:
+        for item in content_items:
+            for tag_name in item.tags:
                 if not tags[tag_name].name:
                     tags[tag_name].name = tag_name
-                tags[tag_name].posts.append(post)
+                tags[tag_name].posts.append(item)
         return tags

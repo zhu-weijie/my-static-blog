@@ -13,7 +13,13 @@
         {% if post.tags %}
             <p>Tags: 
             {% for tag in post.tags %}
-                <span><a href="/tags/{{ tag | lower }}.html">#{{ tag }}</a></span>
+                <span>
+                    {% if post.type == 'diagram' %}
+                        <a href="/diagrams/tags/{{ tag | lower }}.html">#{{ tag }}</a>
+                    {% else %}
+                        <a href="/tags/{{ tag | lower }}.html">#{{ tag }}</a>
+                    {% endif %}
+                </span>
             {% endfor %}
             </p>
         {% endif %}
