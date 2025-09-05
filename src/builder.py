@@ -52,8 +52,11 @@ class SiteBuilder:
         print(f"Found and parsed {len(diagrams)} diagrams.")
         print(f"Found and parsed {len(pages)} standalone pages.")
 
-        # 3. Now, use the 'posts' list for all the original build steps
-        self._calculate_related_posts(posts)
+        # 3. Related content, tag collection and rendering
+        self._calculate_related_content(posts)
+        self._calculate_related_content(diagrams)
+        print("Calculated related content for all types.")
+
         post_tags = self._collect_tags(posts)
         diagram_tags = self._collect_tags(diagrams)
         print(
@@ -132,32 +135,26 @@ class SiteBuilder:
         output_file = self.output_dir / "search-index.json"
         output_file.write_text(json.dumps(search_data, indent=2))
 
-    def _calculate_related_posts(self, all_posts: list[Post], max_related: int = 3):
-        """Calculates related posts based on shared tags."""
+    def _calculate_related_content(
+        self, content_items: list[Post], max_related: int = 3
+    ):
+        """Calculates related content based on shared tags for a given list of items."""
+        post_map = {p.slug: p for p in content_items}
 
-        # Create a lookup map from slug to Post object for easy access later
-        post_map = {p.slug: p for p in all_posts}
-
-        # Create a dictionary mapping tags to the posts that have them
         tag_map = defaultdict(list)
-        for post in all_posts:
+        for post in content_items:
             for tag in post.tags:
                 tag_map[tag].append(post)
 
-        # Calculate scores for each post
-        for post in all_posts:
+        for post in content_items:
             scores = defaultdict(int)
-            # Find other posts that share tags
             for tag in post.tags:
                 for related_post in tag_map[tag]:
-                    # Use the slug (a string) as the key, which is hashable
                     if related_post.slug != post.slug:
                         scores[related_post.slug] += 1
 
-            # Sort the slugs by score in descending order
             sorted_related_slugs = sorted(scores, key=scores.get, reverse=True)
 
-            # Assign the top N posts to the related_posts field by looking them up in our map
             post.related_posts = [
                 post_map[slug] for slug in sorted_related_slugs[:max_related]
             ]
