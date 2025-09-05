@@ -58,6 +58,19 @@ class Renderer:
         output_file = output_dir_tag / f"{tag.slug}.html"
         output_file.write_text(rendered_html)
 
+    def render_diagram_tag(self, tag: Tag, output_dir: Path):
+        """Renders the index page for a single diagram tag."""
+        # The output path is now inside the /diagrams/tags/ directory
+        output_dir_tag = output_dir / "diagrams" / "tags"
+        output_dir_tag.mkdir(parents=True, exist_ok=True)
+
+        template = self.env.get_template("tag.html")
+        title = f"Diagrams tagged: {tag.name}"
+
+        rendered_html = template.render(posts=tag.posts, title=title)
+        output_file = output_dir_tag / f"{tag.slug}.html"
+        output_file.write_text(rendered_html)
+
     def render_sitemap(self, posts: list[Post], site_url: str, output_dir: Path):
         """Renders the sitemap.xml file."""
         template = self.env.get_template("sitemap.xml")
