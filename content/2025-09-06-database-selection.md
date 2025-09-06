@@ -11,38 +11,52 @@ description: "A diagram of decision flow for database selection."
 
 ```mermaid
 graph TD
-    %% Define Node Shapes
+    %% Define Node Shapes & Styles
     style DataType fill:#cce5ff,stroke:#8aa2c4,stroke-width:2px
     style UseCase fill:#cce5ff,stroke:#8aa2c4,stroke-width:2px
     style Cache fill:#cce5ff,stroke:#8aa2c4,stroke-width:2px
     style TwoDKeyValue fill:#cce5ff,stroke:#8aa2c4,stroke-width:2px
     
-    %% Start Node
+    %% Define Nodes
     DataType{Data type?}
-
-    %% Top-Level Branches
-    DataType -- Structured --> UseCase{Use case?}
-    DataType -- Unstructured --> ObjectStore([Object store])
+    UseCase{Use case?}
+    ObjectStore([Object store])
+    RelationalDB([Relational database])
+    ColumnarDB([Columnar database])
     
-    %% Path for Structured Data
-    UseCase -- Transaction OLTP --> RelationalDB([Relational database])
-    UseCase -- Analytics OLAP --> ColumnarDB([Columnar database])
-
-    %% Path for Semistructured Data
-    %% An invisible node is used to help layout the multiple forks from the "Semistructured" path
-    DataType -- Semistructured --> InvisibleNode( )
+    %% Properly define the invisible node before linking from it
+    InvisibleNode(( ))
     style InvisibleNode stroke:none,fill:none
+    
+    Cache{Cache?}
+    KeyValueDB([Key-value database])
+    InMemoryDB([In-memory database])
+    GraphDB([Graph database])
+    DocumentStore([Document store])
+    TextSearch([Text search])
+    TwoDKeyValue{2D key-value}
+    TimeSeriesDB([Time-series database])
+    WideColumnDB([Wide-column database])
+    GeospatialDB([Geospatial database])
 
-    InvisibleNode -- Dictionary --> Cache{Cache?}
-    Cache -- No --> KeyValueDB([Key-value database])
-    Cache -- Yes --> InMemoryDB([In-memory database])
+    %% Define Links
+    DataType -- Structured --> UseCase
+    DataType -- Unstructured --> ObjectStore
+    DataType -- Semistructured --> InvisibleNode
+
+    UseCase -- "Transaction OLTP" --> RelationalDB
+    UseCase -- "Analytics OLAP" --> ColumnarDB
+
+    InvisibleNode -- Dictionary --> Cache
+    InvisibleNode -- "Entity/relationships" --> GraphDB
+    InvisibleNode -- "Nested object" --> DocumentStore
+    InvisibleNode -- "Text search" --> TextSearch
+    InvisibleNode --> TwoDKeyValue
+
+    Cache -- No --> KeyValueDB
+    Cache -- Yes --> InMemoryDB
     
-    InvisibleNode -- Entity/relationships --> GraphDB([Graph database])
-    InvisibleNode -- Nested object --> DocumentStore([Document store])
-    InvisibleNode -- Text search --> TextSearch([Text search])
-    InvisibleNode -- " " --> TwoDKeyValue{2D key-value}
-    
-    TwoDKeyValue -- Time-series --> TimeSeriesDB([Time-series database])
-    TwoDKeyValue -- " " --> WideColumnDB([Wide-column database])
-    TwoDKeyValue -- Location and geo-entities --> GeospatialDB([Geospatial database])
+    TwoDKeyValue -- "Time-series" --> TimeSeriesDB
+    TwoDKeyValue -- "Location and geo-entities" --> GeospatialDB
+    TwoDKeyValue --> WideColumnDB
 ```
