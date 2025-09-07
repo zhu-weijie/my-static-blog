@@ -3,7 +3,6 @@ title: "Data Storage Format"
 date: 2025-09-05
 type: diagram
 tags:
-  - diagram
   - data-storage
   - file-store
   - block-store

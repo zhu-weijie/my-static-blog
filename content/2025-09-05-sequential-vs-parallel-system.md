@@ -3,7 +3,6 @@ title: "Sequential vs Parallel System"
 date: 2025-09-05
 type: diagram
 tags:
-  - diagram
   - sequential-system
   - parallel-system
 description: "A diagram of sequential and parallel system comparison."

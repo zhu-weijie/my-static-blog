@@ -3,7 +3,6 @@ title: "Database Selection"
 date: 2025-09-06
 type: diagram
 tags:
-  - diagram
   - database
   - selection
 description: "A diagram of decision flow for database selection."

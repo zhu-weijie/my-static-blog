@@ -3,7 +3,6 @@ title: "HTTP Response Code"
 date: 2025-09-05
 type: diagram
 tags:
-  - diagram
   - http-response-codes
   - status-codes
 description: "A diagram of HTTP response codes."

@@ -3,7 +3,6 @@ title: "Synchronous vs Asynchronous Communication"
 date: 2025-09-05
 type: diagram
 tags:
-  - diagram
   - synchronous-communication
   - asynchronous-communication
 description: "A diagram of synchronous and asynchronous communication comparison."

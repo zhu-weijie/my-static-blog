@@ -3,7 +3,6 @@ title: "PACELC Theorem"
 date: 2025-09-05
 type: diagram
 tags:
-  - diagram
   - pacelc-theorem
   - cap-theorem
 description: "A diagram of PACELC theorem."

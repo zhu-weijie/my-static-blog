@@ -3,7 +3,6 @@ title: "Timing Attack"
 date: 2025-09-05
 type: diagram
 tags:
-  - diagram
   - timing-attack
   - security
 description: "A diagram of timing attack and mitigation."

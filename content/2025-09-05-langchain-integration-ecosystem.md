@@ -3,7 +3,6 @@ title: "LangChain Integration Ecosystem"
 date: 2025-09-05
 type: diagram
 tags:
-  - diagram
   - langchain
   - langgraph
   - ai

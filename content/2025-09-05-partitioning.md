@@ -3,7 +3,6 @@ title: "Database Partitioning"
 date: 2025-09-05
 type: diagram
 tags:
-  - diagram
   - partitioning
   - database
   - vertical-partitioning

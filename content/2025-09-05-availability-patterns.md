@@ -3,7 +3,6 @@ title: "Active-Active vs Active-Passive System"
 date: 2025-09-05
 type: diagram
 tags:
-  - diagram
   - active-active-system
   - active-passive-system
   - availability-patterns

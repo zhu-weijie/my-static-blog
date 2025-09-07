@@ -3,7 +3,6 @@ title: "ACID vs BASE"
 date: 2025-09-05
 type: diagram
 tags:
-  - diagram
   - acid
   - base
 description: "A diagram of ACID and BASE comparison."

@@ -3,7 +3,6 @@ title: "Strong vs Eventual Consistency"
 date: 2025-09-05
 type: diagram
 tags:
-  - diagram
   - strong-consistency
   - eventual-consistency
 description: "A diagram of strong and eventual consistency comparison."

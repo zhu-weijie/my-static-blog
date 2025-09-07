@@ -1,6 +1,7 @@
 ---
 title: "The Complete Model for Good System Design"
 date: 2025-08-31
+type: post
 tags:
   - system-design
   - good-design

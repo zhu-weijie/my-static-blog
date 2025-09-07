@@ -3,7 +3,6 @@ title: "Multileader vs Single-leader Replication"
 date: 2025-09-05
 type: diagram
 tags:
-  - diagram
   - multileader-replication
   - single-leader-replication
   - replica-patterns

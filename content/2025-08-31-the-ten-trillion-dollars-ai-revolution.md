@@ -1,6 +1,7 @@
 ---
 title: "The $10 Trillion AI Revolution"
 date: 2025-08-31
+type: post
 tags:
   - ai
   - investment
