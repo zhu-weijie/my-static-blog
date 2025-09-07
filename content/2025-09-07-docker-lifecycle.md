@@ -1,3 +1,13 @@
+---
+title: "Docker Lifecycle"
+date: 2025-09-07
+type: diagram
+tags:
+  - docker
+  - lifecycle
+description: "A diagram of Docker lifecycle."
+---
+
 ```mermaid
 stateDiagram-v2
     [*] --> Created: Create

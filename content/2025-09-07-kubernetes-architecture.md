@@ -1,3 +1,12 @@
+---
+title: "Kubernetes Architecture"
+date: 2025-09-07
+type: diagram
+tags:
+  - kubernetes
+description: "A diagram of Kubernetes architecture."
+---
+
 ```mermaid
 graph TD
     subgraph "Cloud Provider"
