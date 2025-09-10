@@ -33,3 +33,5 @@ This project is a practical lab where you can:
 - Experiment with forward-looking AI themes like persistent memory and voice interfaces.
 
 The best way to understand the future is to build it.
+
+Source: [The $10 Trillion AI Revolution](https://www.sequoiacap.com/article/10t-ai-revolution/)

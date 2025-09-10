@@ -103,3 +103,5 @@ Andrew Ng’s vision of an agentic orchestration layer is the clear next step in
 *   **Contributions are welcome!** Whether it's code, documentation, or feedback, your input is invaluable.
 
 Let's build the future of AI orchestration, together.
+
+Source: [Architecting Multi-Agent Systems With Andrew Ng](https://www.youtube.com/watch?v=yi7doi-QGJI)
