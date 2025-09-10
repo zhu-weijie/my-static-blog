@@ -35,13 +35,19 @@ To explore and demonstrate this powerful pattern, I've initiated an open-source 
 Its goal is to build a clean, clear, and well-documented reference implementation of the Deep Agents pattern using Python, FastAPI, and Docker. The project is designed to serve as a blueprint that others can learn from and build upon.
 
 The overall plan for "The Art of Intelligence" is to construct an agent capable of:
+
 *   **Receiving a high-level goal** from a user.
+
 *   **Formulating a strategic plan** using its planning tool.
+
 *   **Executing the plan step-by-step,** using its file system to manage its work.
+
 *   **Delegating tasks** to specialized sub-agents for research and quality assurance.
+
 *   **Delivering a final, polished result** that fulfills the original, complex request.
 
 By focusing on this architecture, I am building a model for a new class of AI applications—ones that can function as true collaborators, capable of taking a complex goal and seeing it through to completion. This is the pattern that will unlock the next wave of AI-powered productivity.
 
 GitHub: [https://github.com/zhu-weijie/the-art-of-intelligence](https://github.com/zhu-weijie/the-art-of-intelligence)
+
 Source: [https://github.com/langchain-ai/deepagents](https://github.com/langchain-ai/deepagents)
