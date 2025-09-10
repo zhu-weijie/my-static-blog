@@ -1,3 +1,12 @@
+---
+title: "Microservice Best Practices"
+date: 2025-09-10
+type: diagram
+tags:
+  - microservice
+  - best-practices
+---
+
 ### 1. Separate Data Store
 ```mermaid
 graph TD

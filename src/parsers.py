@@ -4,6 +4,7 @@ import markdown
 import html  # <-- IMPORT THE HTML LIBRARY
 from pathlib import Path
 from src.models import Post
+from datetime import date
 
 
 def parse_markdown_file(filepath: Path) -> Post:
@@ -33,7 +34,7 @@ def parse_markdown_file(filepath: Path) -> Post:
 
     return Post(
         title=metadata.get("title", "Untitled Post"),
-        date=metadata.get("date"),
+        date=metadata.get("date", date(2025, 1, 1)),
         content_html=html_content,
         content_raw=post_fm.content,
         slug=filepath.stem,
