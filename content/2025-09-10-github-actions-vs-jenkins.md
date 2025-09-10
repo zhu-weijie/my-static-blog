@@ -5,7 +5,8 @@ type: diagram
 tags:
   - github-actions
   - jenkins
-  - ci/cd
+  - ci
+  - cd
   - continuous-integration
   - continuous-deployment
 ---
