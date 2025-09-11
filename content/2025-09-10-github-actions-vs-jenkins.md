@@ -27,7 +27,7 @@ graph TD
         direction LR
         E[Integrated with GitHub];
         F[YAML-based Workflows];
-        G[Marketplace of &quot;Actions&quot;];
+        G[Marketplace of Actions];
         H[Easier to Get Started];
     end
 
